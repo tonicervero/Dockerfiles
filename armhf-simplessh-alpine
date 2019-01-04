@@ -1,0 +1,13 @@
+FROM armhf/alpine 
+
+MAINTAINER Toni Cervero
+
+RUN apk update && apk upgrade
+RUN apk add openssh
+RUN ssh-keygen -f /etc/ssh/ssh_host_rsa_key -N '' -t rsa
+RUN busybox adduser -D sshuser -s /bin/ash  
+RUN echo 'sshuser:Changemeplease' | chpasswd
+
+EXPOSE 22
+
+CMD ["/usr/sbin/sshd", "-D"]
